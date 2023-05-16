@@ -1,7 +1,9 @@
-import usersRouter from './users.js'
+import authRouter from './auth.js'
 import productsRouter from './products.js'
+import usersRouter from './user.js'
 
 export {
-  usersRouter,
+  authRouter,
   productsRouter,
+  usersRouter,
 }

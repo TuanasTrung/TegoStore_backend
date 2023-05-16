@@ -4,7 +4,7 @@ import isEmail from 'validator/lib/isEmail.js'
 const User = mongoose.model('User',
   new Schema({
     id: { type: ObjectId },
-    name: {
+    username: {
       type: String,
       required: true, //NOT NULL
       validate: {
@@ -14,6 +14,8 @@ const User = mongoose.model('User',
     },
     email: {
       type: String,
+      required: true,
+      unique: true,
       validate: {
         validator: (value) => isEmail,
         message: 'Email is incorrect format'
@@ -22,16 +24,23 @@ const User = mongoose.model('User',
     password: {
       type: String,
       required: true,
+      minlength: 5,
     },
     phoneNumber: {
       type: String,
       required: true,
+      unique: true
     },
     address: {
       type: String,
-      required: false,
+      required: true,
+    },
+    admin: {
+      type: Boolean,
+      default: false,
     }
-  })
+  }, { timestamps: true } //user dc tao va update luc nao
+  )
 )
 
 export default User

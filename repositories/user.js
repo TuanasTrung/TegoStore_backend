@@ -47,12 +47,6 @@ const register = async ({
   if (!!existingUser) {
     throw new Exception(Exception.USER_EXIST)
   }
-  //encrypt password, use bcrypt
-  //used for login purpose
-  // const isMatched = await bcrypt.compare(password, existingUser.password)
-  // if(isMatched) {
-
-  // }
   const hashedPassword = await bcrypt.hash(password, parseInt(process.env.SALT_ROUNDS))
   //insert to db
   const newUser = await User.create({
