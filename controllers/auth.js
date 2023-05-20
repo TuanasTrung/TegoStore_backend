@@ -36,7 +36,7 @@ const login = async (req, res) => {
   try {
     const user = await User.findOne({ username: req.body.username })
     if (!user) {
-      res.status(HttpStatusCode.NOT_FOUND).json({
+      return res.status(HttpStatusCode.NOT_FOUND).json({
         message: 'Wrong username!'
       })
     }
@@ -44,7 +44,7 @@ const login = async (req, res) => {
       req.body.password, user.password
     );
     if (!validPassword) {
-      res.status(HttpStatusCode.NOT_FOUND).json({
+      return res.status(HttpStatusCode.NOT_FOUND).json({
         message: 'Wrong password'
       })
     }
@@ -58,10 +58,10 @@ const login = async (req, res) => {
         sameSite: 'strict'
       })
       const { password, ...others } = user._doc;
-      res.status(HttpStatusCode.OK).json({ ...others, accessToken })
+      return res.status(HttpStatusCode.OK).json({ ...others, accessToken })
     }
   } catch (exception) {
-    res.status(HttpStatusCode.INTERAL_SERVER_ERROR).json(exception)
+    return res.status(HttpStatusCode.INTERAL_SERVER_ERROR).json(exception)
   }
 }
 
@@ -80,12 +80,12 @@ const register = async (req, res) => {
 
     const user = await newUser.save();
 
-    res.status(HttpStatusCode.INSERT_OK).json({
+    return res.status(HttpStatusCode.INSERT_OK).json({
       message: 'Register user successfully',
       data: user
     })
   } catch (exception) {
-    res.status(HttpStatusCode.INTERAL_SERVER_ERROR).json({
+    return res.status(HttpStatusCode.INTERAL_SERVER_ERROR).json({
       message: exception.toString(),
     })
   }

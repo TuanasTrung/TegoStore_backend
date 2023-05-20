@@ -6,7 +6,7 @@ dotenv.config()
 
 //authentication middleware
 import checkToken from './authentication/auth.js'
-import { usersRouter, productsRouter, authRouter } from './routers/index.js';
+import { usersRouter, productsRouter, authRouter, orderRouter } from './routers/index.js';
 import db from './database/index.js'
 
 const app = express()
@@ -23,6 +23,8 @@ app.use('/auth', authRouter)
 app.use('/users', usersRouter)
 
 app.use('/products', productsRouter)
+
+app.use('/orders', orderRouter)
 
 const port = process.env.APP_PORT || 1607;
 

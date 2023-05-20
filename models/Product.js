@@ -1,7 +1,7 @@
 import mongoose, { Schema, ObjectId } from "mongoose";
 
 const Product = mongoose.model('Product',
-   new Schema({
+  new Schema({
     id: { type: ObjectId },
     image: {
       type: String,
@@ -11,9 +11,10 @@ const Product = mongoose.model('Product',
       type: String,
       required: true, //NOT NULL
       validate: {
-        validator: (name) => { name.length > 5 && value.length <= 20 },
+        validator: (name) => { name.length > 5 && name.length <= 20 },
         message: 'User must be at least 5 characters, max: 20',
-      }
+      },
+      unique: true,
     },
     price: {
       type: Number,
@@ -22,14 +23,14 @@ const Product = mongoose.model('Product',
       //   message: 'Must be number'
       // }
     },
-    slug: {
-      type: String,
-      required: false,
-    },
     rating: {
       type: Number,
       required: false,
     },
+    quantity: {
+      type: Number,
+      required: true,
+    }
   })
 )
 

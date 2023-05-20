@@ -8,6 +8,9 @@ const router = express.Router();
 //get all user
 router.get('/', middleware.verifyToken, userController.getAllUsers)
 
+//get user by id
+router.get('/:id')
+
 //delete user || id mean params
 router.delete('/:id', middleware.verifyTokenAndAdminAuth, userController.deleteUser)
 

@@ -10,8 +10,10 @@ router.get('/', productController.getAllProducts)
 router.get('/:id', productController.getProductById)
 
 //put or patch 
-router.patch('/', productController.updateProduct)
+router.patch('/patchProduct', productController.updateProduct)
 
 router.post('/', productController.insertProduct)
+
+router.delete('/:id', productController.deleteProduct)
 
 export default router
