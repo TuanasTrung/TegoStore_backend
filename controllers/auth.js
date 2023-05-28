@@ -3,7 +3,6 @@ import { User } from '../models/index.js'
 import HttpStatusCode from '../exceptions/HttpStatusCode.js'
 import * as bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import Exception from '../exceptions/Exception.js'
 
 let refreshTokens = [];
 const generateAccessToken = (user) => {
@@ -12,7 +11,7 @@ const generateAccessToken = (user) => {
     admin: user.admin
   },
     process.env.APP_JWT_SECRET,
-    { expiresIn: '10 days' })
+    { expiresIn: '30s' })
 }
 
 const generateRefreshToken = (user) => {
@@ -51,14 +50,16 @@ const login = async (req, res) => {
     if (user && validPassword) {
       const accessToken = generateAccessToken(user)
       const refreshToken = generateRefreshToken(user)
-      res.cookie('refreshToken', refreshToken, {
+      refreshTokens.push(refreshToken)
+      res.cookie('refreshToken', `${refreshToken}`, {
         httpOnly: true,
         secure: false,
         path: '/',
-        sameSite: 'strict'
+        sameSite: 'strict',
+        overwrite: true,
       })
       const { password, ...others } = user._doc;
-      return res.status(HttpStatusCode.OK).json({ ...others, accessToken })
+      return res.status(HttpStatusCode.OK).json({ ...others, accessToken, refreshToken })
     }
   } catch (exception) {
     return res.status(HttpStatusCode.INTERAL_SERVER_ERROR).json(exception)
@@ -93,7 +94,7 @@ const register = async (req, res) => {
 
 const requestRefreshToken = async (req, res) => {
   // take refreshtoken from user
-  const refreshToken = req.cookies.refreshToken;
+  const refreshToken = req.body.refreshToken;
   if (!refreshToken) {
     res.status(HttpStatusCode.NOT_AUTHENTICATED).json(`You're not authentucated`);
     if (!refreshTokens.includes(refreshToken)) {
@@ -108,12 +109,12 @@ const requestRefreshToken = async (req, res) => {
     const newAccessToken = generateAccessToken(user);
     const newRefreshToken = generateRefreshToken(user);
     refreshTokens.push(newRefreshToken);
-    res.cookie('refreshToken', newRefreshToken, {
-      httpOnly: true,
-      secure: false,
-      path: '/',
-      sameSite: 'strict'
-    })
+    // res.cookie('refreshToken', newRefreshToken, {
+    //   httpOnly: true,
+    //   secure: false,
+    //   path: '/',
+    //   sameSite: 'strict'
+    // })
     res.status(HttpStatusCode.OK).json({ accessToken: newAccessToken });
   })
 }

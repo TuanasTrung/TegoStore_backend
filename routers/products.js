@@ -6,11 +6,12 @@ import {
 const router = express.Router();
 
 router.get('/', productController.getAllProducts)
+
 //get product by id
 router.get('/:id', productController.getProductById)
 
-//put or patch 
-router.patch('/patchProduct', productController.updateProduct)
+//put or patch
+router.put('/:id', productController.updateProduct)
 
 router.post('/', productController.insertProduct)
 

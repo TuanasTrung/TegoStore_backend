@@ -1,6 +1,4 @@
-import { body, validationResult } from 'express-validator'
 import HttpStatusCode from '../exceptions/HttpStatusCode.js'
-import { productRepository } from '../repositories/index.js'
 import { Order } from '../models/index.js'
 
 
@@ -57,7 +55,7 @@ const insertOrder = async (req, res) => {
 const deleteOrder = async (req, res) => {
   try {
     await Order.findByIdAndDelete(req.params.id);
-    res.status(HttpStatusCode.INSERT_OK).send("Order has been deleted...");
+    res.status(HttpStatusCode.OK).send("Order has been deleted...");
   } catch (err) {
     res.status(HttpStatusCode.BAD_REQUEST).send(err);
   }

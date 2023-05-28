@@ -11,7 +11,7 @@ const getAllUsers = async (req, res) => {
   }
 }
 
-const deleteUser = async(req, res) => {
+const deleteUser = async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
     res.status(HttpStatusCode.OK).json('Delete successfully')
@@ -20,7 +20,17 @@ const deleteUser = async(req, res) => {
   }
 }
 
+const getUserById = async (req, res) => {
+try {
+  const user = await User.findById(req.params.id);
+  res.status(HttpStatusCode.OK).json(user)
+} catch (error) {
+  res.status(HttpStatusCode.BAD_REQUEST).json(error)
+}
+}
+
 export default {
   getAllUsers,
-  deleteUser
+  deleteUser,
+  getUserById
 }

@@ -22,7 +22,7 @@ new Schema({
   },
   shipping: {
     type: Object,
-    required: false
+    required: true
   },
   delivery_status: {
     type: String,

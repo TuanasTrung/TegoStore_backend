@@ -12,18 +12,19 @@ import db from './database/index.js'
 const app = express()
 // app.use(checkToken) //shield, guard
 
-app.use(cors())
-app.use(cookieParser())
+app.use(cors({
+  origin: ['http://localhost:3001', 'http://localhost:3000'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
 app.use(express.json());
+app.use(cookieParser())
 
 //ROUTES
 
 app.use('/auth', authRouter)
-
 app.use('/users', usersRouter)
-
 app.use('/products', productsRouter)
-
 app.use('/orders', orderRouter)
 
 const port = process.env.APP_PORT || 1607;

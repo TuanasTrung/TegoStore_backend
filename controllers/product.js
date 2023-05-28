@@ -26,7 +26,18 @@ const getProductById = async (req, res) => {
 }
 
 const updateProduct = async (req, res) => {
-
+  try {
+    const updatedProduct = await Product.findById(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      {new: true}
+    )
+    res.status(HttpStatusCode.OK).send(updatedProduct);
+  } catch (error) {
+    res.status(HttpStatusCode.BAD_REQUEST).send(error)
+  }
 }
 
 const insertProduct = async (req, res) => {
