@@ -26,6 +26,7 @@ app.use('/auth', authRouter)
 app.use('/users', usersRouter)
 app.use('/products', productsRouter)
 app.use('/orders', orderRouter)
+// app.use('/stripe', )
 
 const port = process.env.APP_PORT || 1607;
 
