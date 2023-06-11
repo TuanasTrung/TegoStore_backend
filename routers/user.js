@@ -11,6 +11,9 @@ router.get('/', middleware.verifyToken, userController.getAllUsers)
 router.get('/:id', middleware.verifyTokenAndAdminAuth, userController.getUserById)
 
 //delete user || id mean params
-router.delete('/:id', middleware.verifyTokenAndAdminAuth, userController.deleteUser)
+router.delete('/:id', userController.deleteUser)
+
+//update user
+router.put('/:id', userController.updateUser)
 
 export default router

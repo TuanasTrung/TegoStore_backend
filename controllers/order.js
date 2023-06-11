@@ -13,7 +13,7 @@ const getAllOrders = async (req, res) => {
 
 const getOrderById = async (req, res) => {
   try {
-    const order = await Order.find({userId: req.params.userId});
+    const order = await Order.find({ userId: req.params.userId });
     return res.status(HttpStatusCode.OK).json(order);
   } catch (error) {
     return res.status(HttpStatusCode.BAD_REQUEST).json(error)

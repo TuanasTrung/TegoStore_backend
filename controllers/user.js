@@ -20,6 +20,21 @@ const deleteUser = async (req, res) => {
   }
 }
 
+const updateUser = async (req, res) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      {new: true}
+    )
+    res.status(HttpStatusCode.OK).send(updatedUser);
+  } catch (error) {
+    res.status(HttpStatusCode.BAD_REQUEST).send(error)
+  }
+}
+
 const getUserById = async (req, res) => {
 try {
   const user = await User.findById(req.params.id);
@@ -32,5 +47,6 @@ try {
 export default {
   getAllUsers,
   deleteUser,
-  getUserById
+  getUserById,
+  updateUser
 }
