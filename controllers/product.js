@@ -2,6 +2,7 @@ import { body, validationResult } from 'express-validator'
 import HttpStatusCode from '../exceptions/HttpStatusCode.js'
 import { productRepository } from '../repositories/index.js'
 import { Product } from '../models/index.js'
+import cloudinary from '../utils/cloudinary.js'
 
 
 const getAllProducts = async (req, res) => {
@@ -27,12 +28,12 @@ const getProductById = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const updatedProduct = await Product.findById(
+    const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
       {
         $set: req.body,
       },
-      {new: true}
+      { new: true }
     )
     res.status(HttpStatusCode.OK).send(updatedProduct);
   } catch (error) {

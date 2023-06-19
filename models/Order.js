@@ -33,7 +33,6 @@ const Order = mongoose.model('Order',
     },
     payment_status: {
       type: String,
-      default: 'COD',
       required: true
     }
   }, { timestamps: true })
